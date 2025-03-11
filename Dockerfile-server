@@ -5,8 +5,10 @@ WORKDIR /app
 
 COPY main/xiaozhi-server/requirements.txt .
 
-# 优化apt安装
-RUN pip install --no-cache-dir -r requirements.txt
+# 确保 pip 是最新版本，并且使用国内镜像源加速安装
+RUN python -m pip install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple/ && \
+    # 安装 Python 依赖，使用国内镜像源
+    pip install --no-cache-dir -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 
 # 第三阶段：生产镜像
 FROM python:3.10-slim
